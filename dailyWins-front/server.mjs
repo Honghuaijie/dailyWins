@@ -9,8 +9,8 @@ http.createServer(async(req,res)=>{
  const requestURL=new URL(req.url,'http://localhost');const pathname=requestURL.pathname;
  if(pathname.startsWith('/v1/')){
   const transport=backend.protocol==='https:'?https:http;
-  const target=new URL(backend);target.pathname=pathname;target.search=requestURL.search;
-  const upstream=transport.request(target,{method:req.method,headers:{...req.headers,host:req.headers.host},timeout:25000},response=>{res.writeHead(response.statusCode,response.headers);response.pipe(res);});
+  const target=new URL(backend);target.pathname=`${backend.pathname.replace(/\/+$/,'')}${pathname}`;target.search=requestURL.search;
+  const upstream=transport.request(target,{method:req.method,headers:{...req.headers,host:target.host},timeout:25000},response=>{res.writeHead(response.statusCode,response.headers);response.pipe(res);});
   upstream.on('timeout',()=>upstream.destroy());
   upstream.on('error',()=>{if(!res.headersSent)res.writeHead(502,{'Content-Type':'application/json'});res.end(JSON.stringify({code:50200,message:'后端暂时不可用，请确认服务已启动；输入不会丢失'}));});
   req.pipe(upstream);return;
