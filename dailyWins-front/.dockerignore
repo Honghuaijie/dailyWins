@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!package.json
+!*.mjs
+!index.html
+!styles.css
+!tests/
+!tests/*.test.mjs

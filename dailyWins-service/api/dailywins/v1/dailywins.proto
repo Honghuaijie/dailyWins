@@ -1,0 +1,83 @@
+syntax = "proto3";
+package dailywins.v1;
+import "google/api/annotations.proto";
+option go_package = "dailyWins-service/api/all-pb-go/v1;v1";
+
+service DailyWins {
+  rpc Login (LoginRequest) returns (LoginReply) { option (google.api.http) = { post: "/v1/public/auth/login" body: "*" }; }
+  rpc Logout (LogoutRequest) returns (LogoutReply) { option (google.api.http) = { post: "/v1/user/auth/logout" body: "*" }; }
+  rpc Me (MeRequest) returns (MeReply) { option (google.api.http) = { get: "/v1/user/auth/me"  }; }
+  rpc ListTasks (ListTasksRequest) returns (ListTasksReply) { option (google.api.http) = { get: "/v1/user/tasks/list"  }; }
+  rpc CreateTask (CreateTaskRequest) returns (CreateTaskReply) { option (google.api.http) = { post: "/v1/user/tasks/create" body: "*" }; }
+  rpc UpdateTask (UpdateTaskRequest) returns (UpdateTaskReply) { option (google.api.http) = { post: "/v1/user/tasks/update" body: "*" }; }
+  rpc MoveTask (MoveTaskRequest) returns (MoveTaskReply) { option (google.api.http) = { post: "/v1/user/tasks/move" body: "*" }; }
+  rpc DeleteTask (DeleteTaskRequest) returns (DeleteTaskReply) { option (google.api.http) = { post: "/v1/user/tasks/delete" body: "*" }; }
+  rpc RestoreTask (RestoreTaskRequest) returns (RestoreTaskReply) { option (google.api.http) = { post: "/v1/user/tasks/restore" body: "*" }; }
+}
+
+message AccountInfo { int32 id = 1; string username = 2; }
+message TaskInfo { string id = 1; int32 user_id = 2; string date = 3; string name = 4; string note = 5; bool done = 6; string created_at = 7; string updated_at = 8; int32 version = 9; bool deleted = 10; }
+message DaySummary { string date = 1; int32 completed = 2; bool achieved = 3; }
+
+message LoginRequest { string username = 1; string password = 2; bool bearer = 3; }
+message LoginReply {
+  int32 code = 1; string message = 2;
+  message Data { AccountInfo account = 1; string token = 2; string expires_at = 3; }
+  Data data = 3;
+}
+
+message LogoutRequest {  }
+message LogoutReply {
+  int32 code = 1; string message = 2;
+  message Data { bool revoked = 1; }
+  Data data = 3;
+}
+
+message MeRequest {  }
+message MeReply {
+  int32 code = 1; string message = 2;
+  message Data { AccountInfo account = 1; }
+  Data data = 3;
+}
+
+message ListTasksRequest { string from = 1; string to = 2; }
+message ListTasksReply {
+  int32 code = 1; string message = 2;
+  message Data { repeated TaskInfo items = 1; repeated DaySummary days = 2; }
+  Data data = 3;
+}
+
+message CreateTaskRequest { string request_id = 1; string id = 2; string date = 3; string name = 4; string note = 5; bool done = 6; }
+message CreateTaskReply {
+  int32 code = 1; string message = 2;
+  message Data { TaskInfo task = 1; }
+  Data data = 3;
+}
+
+message UpdateTaskRequest { string request_id = 1; string id = 2; int32 version = 3; string name = 4; string note = 5; bool done = 6; }
+message UpdateTaskReply {
+  int32 code = 1; string message = 2;
+  message Data { TaskInfo task = 1; }
+  Data data = 3;
+}
+
+message MoveTaskRequest { string request_id = 1; string id = 2; int32 version = 3; string date = 4; }
+message MoveTaskReply {
+  int32 code = 1; string message = 2;
+  message Data { TaskInfo task = 1; }
+  Data data = 3;
+}
+
+message DeleteTaskRequest { string request_id = 1; string id = 2; int32 version = 3; }
+message DeleteTaskReply {
+  int32 code = 1; string message = 2;
+  message Data { TaskInfo task = 1; }
+  Data data = 3;
+}
+
+message RestoreTaskRequest { string request_id = 1; string id = 2; int32 version = 3; }
+message RestoreTaskReply {
+  int32 code = 1; string message = 2;
+  message Data { TaskInfo task = 1; }
+  Data data = 3;
+}

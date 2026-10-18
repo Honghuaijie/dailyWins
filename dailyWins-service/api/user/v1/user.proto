@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "dailyWins-service/api/all-pb-go/v1;v1";
+
+service User {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserReply) {
+    option (google.api.http) = {
+      post: "/v1/users/create"
+      body: "*"
+    };
+  }
+
+  rpc GetUser (GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/v1/users/get/{id}"
+    };
+  }
+
+  rpc ListUsers (ListUsersRequest) returns (ListUsersReply) {
+    option (google.api.http) = {
+      get: "/v1/users/list"
+    };
+  }
+
+  rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply) {
+    option (google.api.http) = {
+      post: "/v1/users/update"
+      body: "*"
+    };
+  }
+
+  rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply) {
+    option (google.api.http) = {
+      post: "/v1/users/delete"
+      body: "*"
+    };
+  }
+}
+
+message UserInfo {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message CreateUserRequest {
+  string name = 1;
+  string email = 2;
+  string phone = 3;
+}
+
+message GetUserRequest {
+  int32 id = 1;
+}
+
+message ListUsersRequest {}
+
+message UpdateUserRequest {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+}
+
+message DeleteUserRequest {
+  int32 id = 1;
+}
+
+message CreateUserReply {
+  int32 code = 1;
+  string message = 2;
+  message Data {
+    UserInfo user = 1;
+  }
+  Data data = 3;
+}
+
+message GetUserReply {
+  int32 code = 1;
+  string message = 2;
+  message Data {
+    UserInfo user = 1;
+  }
+  Data data = 3;
+}
+
+message ListUsersReply {
+  int32 code = 1;
+  string message = 2;
+  message Data {
+    repeated UserInfo items = 1;
+    int32 total = 2;
+  }
+  Data data = 3;
+}
+
+message UpdateUserReply {
+  int32 code = 1;
+  string message = 2;
+  message Data {
+    UserInfo user = 1;
+  }
+  Data data = 3;
+}
+
+message DeleteUserReply {
+  int32 code = 1;
+  string message = 2;
+  message Data {
+    int32 id = 1;
+  }
+  Data data = 3;
+}

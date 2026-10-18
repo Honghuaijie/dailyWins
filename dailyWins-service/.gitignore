@@ -1,0 +1,8 @@
+bin/
+*.log
+*.out
+openapi.yaml
+api/all-pb-go/
+cmd/**/wire_gen.go
+/configs/.env
+/docs

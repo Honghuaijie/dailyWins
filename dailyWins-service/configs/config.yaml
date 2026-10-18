@@ -1,0 +1,36 @@
+server:
+  http:
+    network: tcp
+    addr: 0.0.0.0:10006
+    timeout: 30s
+  grpc:
+    network: tcp
+    addr: 0.0.0.0:11006
+    timeout: 30s
+
+data:
+  database:
+    driver: mysql
+    host: "${DB_HOST}"
+    port: "${DB_PORT}"
+    username: "${DB_USER}"
+    password: "${DB_PASSWORD}"
+    database: "${DB_NAME}"
+    charset: utf8mb4
+    parseTime: true
+    loc: UTC
+  redis:
+    network: tcp
+    addr: "${REDIS_ADDR:127.0.0.1:6379}"
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+
+logging:
+  level: INFO
+  file:
+    path: ./
+    name: "dailyWins-service.log"
+    maxSize: 10
+    maxBackups: 5
+    maxAge: 30
+    compress: false

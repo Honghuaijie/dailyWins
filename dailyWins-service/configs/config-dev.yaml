@@ -1,0 +1,10 @@
+server:
+  http:
+    addr: 0.0.0.0:10006
+  grpc:
+    addr: 0.0.0.0:11006
+
+logging:
+  level: DEBUG
+  file:
+    path: /logs

@@ -1,0 +1,15 @@
+.git
+.gitignore
+configs/.env
+bin/
+*.log
+*.out
+openapi.yaml
+**/.env
+**/.env.*
+**/*.pem
+**/*.key
+.github/
+api/all-pb-go/
+cmd/**/wire_gen.go
+.cache/
