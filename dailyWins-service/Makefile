@@ -12,10 +12,12 @@ OUTPUT_DIR   ?= ./api/all-pb-go
 env          ?=
 PROTOC_GEN_GO_VERSION ?= v1.36.6
 PROTOC_GEN_GO_GRPC_VERSION ?= v1.5.1
-PROTOC_GEN_GO_HTTP_VERSION ?= v2.9.0
+# These tools live in nested Go modules, so pin their parent repository commits
+# instead of root release tags (which Go resolves as nested-module tag names).
+PROTOC_GEN_GO_HTTP_VERSION ?= 593b412
 PROTOC_GEN_OPENAPI_VERSION ?= v0.7.0
 WIRE_VERSION ?= v0.7.0
-KRATOS_VERSION ?= v2.9.2
+KRATOS_VERSION ?= b9fab9a
 PROTOC_GEN_VALIDATE_VERSION ?= v1.2.1
 
 ifeq ($(GOHOSTOS), windows)
