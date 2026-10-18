@@ -61,10 +61,17 @@ jobs:
           IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
         run: |
           {
-            echo '## Published frontend images'
+            echo '## Published Images'
             while IFS= read -r tag; do
               [ -n "$tag" ] || continue
               printf -- '- `%s`\n' "$tag"
             done <<< "$IMAGE_TAGS"
-            printf '\nDigest: `%s`\n' "$IMAGE_DIGEST"
+            echo
+            echo '## Deploy Commands'
+            echo '在服务器的项目部署目录执行：'
+            while IFS= read -r tag; do
+              [ -n "$tag" ] || continue
+              printf -- '- `./deploy.sh %s`\n' "$tag"
+            done <<< "$IMAGE_TAGS"
+            printf '\nImage digest: `%s`\n' "$IMAGE_DIGEST"
           } >> "$GITHUB_STEP_SUMMARY"
